@@ -48,7 +48,11 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 return;
             }
 
-            String messageText = "Добро пожаловать";
+            String messageText = "Добро пожаловать!\n" +
+                    "Здесь вы можете создать напоминание.\n" +
+                    "Для этого отправьте сообщение в формате:\n" +
+                    "дд.мм.гггг чч:мм Текст напоминания\n" +
+                    "(прим. 01.01.2022 20:00 Сделать домашнюю работу)";
 
             if (update.message() != null && updatesMessageText.equals("/start")) {
                 sendMessage(chatId, messageText);
@@ -64,6 +68,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                         notificationTask.setText(text);
                         notificationTask.setDateTime(LocalDateTime.parse(date, DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
                         notificationTaskRepository.save(notificationTask);
+                        sendMessage(chatId, "Напоминание успешно создано!\n" + date + " я напомню вам " + text);
                     } catch (DateTimeParseException e) {
                         logger.warn("Error");
                         throw new RuntimeException(e);
