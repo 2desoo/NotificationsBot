@@ -1,0 +1,6 @@
+databaseChangeLog:
+  - include:
+     file: liquibase/notification_task.sql
+
+  - include:
+     file: liquibase/notification_task2.sql
